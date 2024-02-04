@@ -1,0 +1,16 @@
+225;0;Lisbon
+200;0;Barcelona
+175;1;Paris
+150;0;London
+125;0;Venice
+100;0;Berlin
+0;0;Brussels
+100;0;Amsterdam
+125;0;Oslo
+150;0;Stockholm
+175;0;Copenhagen
+200;0;Prague
+225;0;Athens
+250;0;Vienna
+275;0;Dublin
+300;0;Munich

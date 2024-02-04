@@ -1,0 +1,71 @@
+## --- Additional packages with Hardware to Simulator
+package ticketmachine.simul
+
+# Generic modules to activate from Simulator
+UsbPort = UsbPort
+kbd = Keyboard("123456789*0#",4,3,0)
+lcd = LCD
+m=Switch ; "manut" ; setLabel("M")
+
+# Costume modules from Ticket Machine package
+kt = KeyTransmitter
+sr = SerialReceiverParity(10)
+dp = Dispatcher(9)
+ca = CoinAcceptor
+tp = TicketPrinter
+
+## --- Project Links ---
+# --------------------------------------
+# Manut
+# --------------------------------------
+m.out -> UsbPort.I7
+
+# --------------------------------------
+# KeyBoard Reader
+# --------------------------------------
+1 -> kbd.oe
+kbd.K[0-3] -> kt.D[0-3]
+kbd.val -> kt.DAV
+kt.TXd-> UsbPort.I1
+UsbPort.O3-> kt.TXclk
+kt.DAC -> kbd.ack
+
+# --------------------------------------
+# Coin Acceptor
+# --------------------------------------
+UsbPort.O6 -> ca.accept
+UsbPort.O5 -> ca.collect
+UsbPort.O4 -> ca.eject
+ca.coin -> UsbPort.I5
+ca.cid[0-2] -> UsbPort.I[2-4]
+
+# --------------------------------------
+# IOS (Integrated Output System)
+# --------------------------------------
+# Serial
+UsbPort.O0 -> sr.SDX
+UsbPort.O1-> sr.SCLK
+UsbPort.O2-> sr.nSS
+dp.done -> sr.accept
+sr.busy -> UsbPort.I0
+
+# Dispatcher
+sr.DXval -> dp.Dval
+sr.D[1-9] -> dp.I[0-8]
+sr.D0 -> dp.TnL
+
+# --------------------------------------
+# LCD
+# --------------------------------------
+dp.D[1-8] -> lcd.D[0-7]
+dp.D0 -> lcd.rs
+dp.WrL -> lcd.e
+
+# --------------------------------------
+# Dispenser
+# --------------------------------------
+dp.D[1-4] -> tp.DId[0-3]
+dp.D[5-8] -> tp.OId[0-3]
+dp.D0 -> tp.rt
+dp.WrT -> tp.prt
+tp.fn -> dp.finish
