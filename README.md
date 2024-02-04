@@ -30,9 +30,11 @@ The purchase order is given by pressing the confirmation key, and a unit of the
 ticket displayed on the screen.
 The machine does not make any change and only accepts coins of:
 `€0.05`, `€0.10`, `€0.20`, `€0.50`, `€1.00` and `€2.00`.
+
 In addition to the **Sales mode**, the system has another operating mode called **Maintenance**, which is activated by a
 **maintenance key**. This mode allows the ticket-vending machine to be tested, and the ticket and coin counters to be
 started and checked.
+
 The ticket-vending machine consists of the management system (referred to as Control) and the following peripherals:
 
 - a 12-key keyboard;
@@ -102,7 +104,14 @@ Divided into several key modules:
 - [TUI](./src/main/kotlin/ticketmachine/software/TUI.kt) | [TestBench](./src/main/kotlin/ticketmachine/software/TUI_tb.kt)
 - [TicketDispenser](./src/main/kotlin/ticketmachine/software/TicketDispenser.kt) | [TestBench](./src/main/kotlin/ticketmachine/software/TicketDispenser_tb.kt)
 
-Entry point: [Main](./src/main/kotlin/ticketmachine/software/Main.kt).
+And other auxiliary modules and functions:
+- [CoinDeposit](./src/main/kotlin/ticketmachine/software/CoinDeposit.kt)
+- [Stations](./src/main/kotlin/ticketmachine/software/Stations.kt)
+- [FileAccess](./src/main/kotlin/ticketmachine/software/FileAccess.kt)
+- [ReadFunctions](./src/main/kotlin/ticketmachine/software/ReadFunctions.kt)
+- [Server](./src/main/kotlin/ticketmachine/software/Server.kt)
+
+Entry point: [Main](./src/main/kotlin/ticketmachine/software/Main.kt)
 
 ## Hardware
 
@@ -110,8 +119,9 @@ To develop the hardware modules, the [VHDL](https://en.wikipedia.org/wiki/VHDL) 
 which is a hardware description language
 used in electronic design automation
 to describe digital and mixed-signal systems such as field-programmable gate arrays and integrated circuits.
-Since the IDE chosen was [Quartus Prime](https://www.intel.com/content/www/us/en/software/programmable/quartus-prime/overview.html), several [templates](./src/main/kotlin/ticketmachine/hardware/templates) were used
-to better visualize the modules different signals and their interconnections.
+Since the IDE chosen was [Quartus Prime](https://www.intel.com/content/www/us/en/software/programmable/quartus-prime/overview.html),
+several [templates](./src/main/kotlin/ticketmachine/hardware/templates) were created
+to better visualize the modules different signals and their interconnections when running testbenches.
 
 ### Integrated Output System
 
@@ -171,9 +181,9 @@ Divided into several key modules:
 
 [Implementation](./src/main/kotlin/ticketmachine/hardware/lcd/LCD.vhd)
 
-| ![LCD Display](./docs/images/lcd.png) |
-|:-------------------------------------:|
-|  *LCD Display mounted on the board*   |
+| ![LCD Display](./docs/images/lcd.png)  |
+|:--------------------------------------:|
+| *LCD Display mounted on another board* |
 
 ### Ticket Dispenser
 
@@ -181,17 +191,16 @@ Divided into several key modules:
 
 ## Fpga Assignments
 
-The fpga used was the Terasic [De10 Lite](https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=205&No=1021&PartNo=1),
-and the assignment configuration can be found in [this](./docs/fpga/assignments.qsf) file.
+The fpga used was the Terasic [De10 Lite](https://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&CategoryNo=205&No=1021&PartNo=1). The assignment configuration can be found in [this](./docs/fpga/assignments.qsf) file.
 
 | ![FPGA Assignments](./docs/fpga/fpga-switch-assignments.png) |
 |:------------------------------------------------------------:|
-|                  *FPGA Switch Assignments*                   |
+|              *FPGA Switch and Leds Assignments*              |
 
 ## Simulator
 
 The simulator was used to primarily test the software and hardware modules without the need for physical hardware and
-to verify the correct operation of software when compared with another hardware implementation or vice versa.
+to verify the correct operation of software modules when compared with another hardware implementation or vice versa.
 
 It contains the following files:
 
