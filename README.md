@@ -41,13 +41,13 @@ The ticket-vending machine consists of the management system (referred to as Con
 - a coin acceptor;
 - a two-line, 16-character Liquid Crystal Display (LCD) screen;
 - a ticket printing mechanism (Ticket Dispenser);
-- a maintenance key (**M**) that switches between
+- a maintenance key (**M**) that switches between the **Sales** and **Maintenance** modes.
 
 | ![Ticket Machine](./docs/images/tm-architecture.png) |
 |:----------------------------------------------------:|
 |            *Ticket Machine Architecture*             |
 
-The following actions can be carried out on the system in Sale mode:
+The following actions can be carried out on the system in `Sales` mode:
 
 - **Consultation and sale** - A ticket can be consulted by typing in the identifier of the destination station or by
   listing it
@@ -61,7 +61,7 @@ The following actions can be carried out on the system in Sale mode:
   The ⬆️ and ⬇️ selection mode alternates with numeric selection by pressing the
   key `*`. The purchase can be canceled by pressing the `#` key, returning the coins entered.
 
-The following actions can be carried out on the system in Maintenance mode:
+The following actions can be carried out on the system in `Maintenance` mode:
 
 - **Test** - This menu option allows you to carry out a procedure to consult and sell a ticket, without entering any
   coins and without this operation being counted as a purchase;
@@ -77,10 +77,11 @@ The following actions can be carried out on the system in Maintenance mode:
 > [!IMPORTANT]
 > Entering information via the keyboard has the following criteria:
 > - if no key is pressed within five seconds, the command in progress is aborted;
-> - when the data to be entered is made up of more than one digit, the last digit is taken into account. the command in progress is aborted; insertion takes place from the digit with the greatest weight to the one with the least weight.
+> - when the data to be entered is made up of more than one digit, the last digit is taken into account
+> - insertion takes place from the digit with the greatest weight to the one with the least weight.
 
 > [!NOTE]
-> The handout is available [here](./docs/handout.pdf).
+> For more information about the project, consult the handout which is available [here](./docs/handout.pdf) in portuguese.
 
 ## Application Modules
 
@@ -105,6 +106,7 @@ Divided into several key modules:
 - [TicketDispenser](./src/main/kotlin/ticketmachine/software/TicketDispenser.kt) | [TestBench](./src/main/kotlin/ticketmachine/software/TicketDispenser_tb.kt)
 
 And other auxiliary modules and functions:
+
 - [CoinDeposit](./src/main/kotlin/ticketmachine/software/CoinDeposit.kt)
 - [Stations](./src/main/kotlin/ticketmachine/software/Stations.kt)
 - [FileAccess](./src/main/kotlin/ticketmachine/software/FileAccess.kt)
@@ -118,10 +120,10 @@ Entry point: [Main](./src/main/kotlin/ticketmachine/software/Main.kt)
 To develop the hardware modules, the [VHDL](https://en.wikipedia.org/wiki/VHDL) language was used,
 which is a hardware description language
 used in electronic design automation
-to describe digital and mixed-signal systems such as field-programmable gate arrays and integrated circuits.
+to describe digital and mixed-signal systems such as field-programmable gate arrays (fpga's) and integrated circuits.
 Since the IDE chosen was [Quartus Prime](https://www.intel.com/content/www/us/en/software/programmable/quartus-prime/overview.html),
 several [templates](./src/main/kotlin/ticketmachine/hardware/templates) were created
-to better visualize the modules different signals and their interconnections when running testbenches.
+to better visualize the modules different signals and their interconnections when running module testbenches.
 
 ### Integrated Output System
 
@@ -151,9 +153,14 @@ Divided into several key modules:
     - [Dispatcher Control](./src/main/kotlin/ticketmachine/hardware/ios/DISPATCHER_CONTROL.vhd) | [TestBench](./src/main/kotlin/ticketmachine/hardware/ios/DISPATCHER_CONTROL_tb.vhd)
 
 > [!NOTE]
-> This component report is available [here](./docs/integrated-output-system-report.pdf).
+> This component report is available [here](./docs/integrated-output-system-report.pdf) in portuguese.
 
 ### Keyboard Reader
+
+Responsible for decoding the 12-key matrix keyboard and determining which key was
+pressed, as well as providing its code to the `Control` module. If the latter is not available to receive it immediately, the key code is stored up to a limit of two codes. 
+
+For physical reasons, and in order to minimize the number of interconnection signals, communication between the `Control` module and the `Keyboard Reader` module is carried out using a synchronous serial protocol.
 
 [Implementation](./src/main/kotlin/ticketmachine/hardware/keyboardReader/KBD.vhd) | [TestBench](./src/main/kotlin/ticketmachine/hardware/keyboardReader/KBD_tb.vhd)
 
@@ -175,7 +182,7 @@ Divided into several key modules:
     - [Key Transmitter Control](./src/main/kotlin/ticketmachine/hardware/keyboardReader/KEY_TRANSMITTER_CONTROL.vhd) | [TestBench](./src/main/kotlin/ticketmachine/hardware/keyboardReader/KEY_TRANSMITTER_CONTROL_tb.vhd)
 
 > [!NOTE]
-> This component report is available [here](./docs/keyboard-reader-report.pdf).
+> This component report is available [here](./docs/keyboard-reader-report.pdf) in portuguese.
 
 ### LCD
 
@@ -216,7 +223,7 @@ It contains the following files:
 
 ## Final Report
 
-The final report can be found [here](./docs/final-report.pdf).
+The final report can be found [here](./docs/final-report.pdf) in portuguese.
 
 ---
 
